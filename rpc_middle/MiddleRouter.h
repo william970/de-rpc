@@ -17,7 +17,7 @@ class MiddleRouter : boost::noncopyable
 private:
 	std::map<std::string, int> fun_conid_map;//函数名<->连接ID
 	std::map<int, std::shared_ptr<MiddleConnection>> conid_con_map;//连接ID<->具体连接
-	std::map<int, int> msgid_conid_map;//消息Id 连接ID
+	std::map<int, int> msgid_conid_map;//消息ID->连接ID
 	std::mutex mtx; //互斥锁
 	int msg_id = 0;
 public:

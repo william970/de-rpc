@@ -18,7 +18,7 @@ rpc::client::~client()
 	socket_.close();
 }
 
-bool rpc::client::connect(const std::string & addr, short port)
+bool rpc::client::connect(const std::string & addr, short port,bool read)
 {
 	auto ret = true;
 	if (!if_connected_)
@@ -27,7 +27,7 @@ bool rpc::client::connect(const std::string & addr, short port)
 		{
 			tcp::endpoint e(boost::asio::ip::address::from_string(addr), port);
 			socket_.connect(e);
-			read_head();
+			if(read) read_head();
 			if_connected_ = true;
 			ret = true;
 		}
@@ -44,6 +44,7 @@ bool rpc::client::connect(const std::string & addr, short port)
 
 std::string rpc::client::get_async_data()
 {
+	cout << "recv_buf = : " << recv_buf_ << endl;
 	return recv_buf_;
 }
 
@@ -70,7 +71,6 @@ void rpc::client::read_body(std::size_t size)
 			}
 			_router.route2(data_ + 8, length, [tmp_char,this](std::string json) { response(json, tmp_char); });//具体调用rpc
 			delete[] tmp_char;
-			cout << "到这里了1" << endl;
 			read_head();
 		}
 		else
@@ -93,21 +93,22 @@ void rpc::client::response(std::string json_str,std::string id)
 	message_[1] = boost::asio::buffer(serial_str);
 	cout << "rpc执行结果" << serial_str << endl;
 	socket_.send(message_);
-
-	//boost::asio::async_write(socket_, message_, [this](boost::system::error_code ec, std::size_t length)
-	//{
-	//	if (!ec)
-	//	{
-	//		cout << "success" << endl;
-	//	}
-	//	else
-	//	{
-	//		//log
-	//		std::cout << "server offline\n";
-	//		//close();
-	//		return;
-	//	}
-	//});
+	
+	/*
+	boost::asio::async_write(socket_, message_, [this](boost::system::error_code ec, std::size_t length)
+	{
+		if (!ec)
+		{
+			cout << "success" << endl;
+		}
+		else
+		{
+			//log
+			std::cout << "server offline\n";
+			//close();
+			return;
+		}
+	});*/
 }
 
 

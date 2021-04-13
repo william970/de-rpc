@@ -20,11 +20,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{0FA2F039-FF3E-4F05-BA5E-5AB8A6DE1D66}</ProjectGuid>
+    <ProjectGuid>{12DB32EF-8220-4B6B-95BE-DB1DD7332731}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>rpc_test</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>rpc_server_add</ProjectName>
+    <ProjectName>rpc_server-del</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -22,7 +22,7 @@ namespace rpc
 	public:
 		client(boost::asio::io_service& io_service);
 		~client();
-		bool connect(const std::string& addr, short port);//连接
+		bool connect(const std::string& addr, short port,bool read);//连接
 
 		template<typename... Args>
 		std::string call(const std::string & handler_name, Args&&... args);
@@ -109,46 +109,21 @@ namespace rpc
 	}
 
 	template<typename HandlerT>
-	inline void client::async_call(const std::string& serial_str, HandlerT& handler)
+	inline void client::async_call(const std::string & serial_str, HandlerT &handler)
 	{
 		len_ = (u_int)serial_str.length();
-
+		
 		std::vector<boost::asio::const_buffer> message;
 		message.push_back(boost::asio::buffer(&len_, 4));
 		message.push_back(boost::asio::buffer(serial_str));
 		socket_.send(message);
-
+		
 		socket_.receive(boost::asio::buffer(&len_, 4));
 		recv_buf_.resize(len_);
 		socket_.receive(boost::asio::buffer(&recv_buf_[0], len_));
 		int res = get_result<int>(recv_buf_);
 		cout << "计算结果 = " << res << endl;
 	}
-
-
-	//template<typename HandlerT>
-	//inline void client::async_call(const std::string & serial_str, HandlerT &handler)
-	//{
-	//	len_ = (u_int)serial_str.length();
-	//	
-	//	std::vector<boost::asio::const_buffer> message;
-	//	message.push_back(boost::asio::buffer(&len_, 4));
-	//	message.push_back(boost::asio::buffer(serial_str));
-	//	socket_.send(message);
-	//	
-	//	socket_.async_receive(boost::asio::buffer(&len_, 4), [&, this](boost::system::error_code ec, std::size_t length)
-	//	{
-	//		if (!ec)
-	//		{
-	//			recv_buf_.resize(len_);
-	//			socket_.async_receive(boost::asio::buffer(&recv_buf_[0], len_), handler);
-	//		}
-	//		else
-	//		{
-	//			std::cerr << "async receive head failed, code: " << ec << std::endl;
-	//		}
-	//	});
-	//}
 
 	template <typename T>
 	inline auto client::get_result(const std::string &buf)

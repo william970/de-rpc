@@ -17,8 +17,7 @@ void MiddleRouter::route(const std::string &text, std::size_t length,int connid)
 	std::size_t num_parament = parser.get <std::size_t>();
 
 	//cout << "text = " << text << endl;
-	string realtext = text.substr(0, length);
-	cout << "realtext = " << realtext << endl;
+
 	if (func_name == "register") {
 		std::string real_func_name = parser.get<std::string>();//注册的函数名
 		fun_conid_map[real_func_name] = connid;
@@ -53,8 +52,8 @@ void MiddleRouter::route(const std::string &text, std::size_t length,int connid)
 				s1 += '0';
 			}
 			s1 += s;
-			s1 += realtext;
-			//s1 id + 函数调用realtext
+			s1 += text;
+			//s1 id + 函数调用text
 			target_server_con->response(s1.c_str());
 		}
 	}

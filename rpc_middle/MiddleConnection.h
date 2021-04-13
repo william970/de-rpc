@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <queue>
-#include <boost/noncopyable.hpp>
+
 #include <boost/asio.hpp>
 #include <boost/asio/deadline_timer.hpp>
 

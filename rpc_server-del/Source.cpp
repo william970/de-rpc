@@ -44,10 +44,10 @@ void sync()
 	}
 }
 
-int add(int a, int b)
+int del(int a, int b)
 {
-	cout << "a + b: " << a + b << endl;
-	return  a + b;
+	cout << "a - b: " << a - b << endl;
+	return  a - b;
 }
 
 int main()
@@ -55,9 +55,9 @@ int main()
 	thread t(io_thread);
 	std::string buf;
 	buf.reserve(1024);
-	c_sync.register_handler("add", &add);
+	c_sync.register_handler("del", &del);
 	c_sync.connect("127.0.0.1", 5000,true);
-	buf = c_sync.call("register", std::string("add"));
+	buf = c_sync.call("register", std::string("del"));
 	cout << buf << endl;
 	getchar();
 	return 0;
