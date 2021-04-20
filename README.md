@@ -1,5 +1,2 @@
 # rpc
-a simple rpc framework
-RPC called just like local function calls
-Easy to use: developers only need to focus on business logic
-Supports synchronous and asynchronous call
+一个轻量化的分布式RPC框架
